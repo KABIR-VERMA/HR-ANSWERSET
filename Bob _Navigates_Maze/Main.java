@@ -40,7 +40,8 @@ class Result {
         vis[0][0][0]=true;
         while(!Q.isEmpty()){
             State now = Q.remove();
-            if(now.x==x && now.y==y && Integer.bitCount(now.gold)==goal){
+            if(now.x==x && now.y==y && Integer.bitCount(now.gold)==goal)
+            {
                 return now.steps;
             }
             for(int i=0;i<4;i++){
@@ -49,7 +50,8 @@ class Result {
                 {
                     continue;
                 }
-                if(maze.get(nx).get(ny)!=0){
+                if(maze.get(nx).get(ny)!=0)
+                {
                     int pos = maze.get(nx).get(ny)-2;
                     nt = nt|(1<<pos);
                 }
