@@ -54,6 +54,6 @@ public class DirectI{
 				return size*size;
 			}
 		}
-		return ;
+		return 0;
 	}
 }
