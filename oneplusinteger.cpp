@@ -16,7 +16,7 @@ void init(int lim){
   isprime[2] = 1;
   for(int i = 2; i < lim; i++){
     if(isprime[i]){
-      for(int j = 2 * i; j <= lim; j += i){
+      for(int j = 2 * i; j < lim; j += i){
         isprime[j] = 0;
       }
     }
