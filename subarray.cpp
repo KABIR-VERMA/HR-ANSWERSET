@@ -1,70 +1,46 @@
-#include <bits/stdc++.h>
-using namespace std;
-#define MAX 1000001
+#include <bits/stdc++.h> 
+using namespace std; 
+int countSubarrays(int arr[], 
+				int n, int k) 
+{ 
+	int start = 0, end = 0, 
+		count = 0, sum = arr[0]; 
+	int cnt[n + 1] = {0};
+	while (start < n && end < n) { 
 
-bool isprime[MAX];
-int countp[MAX];
+		if (sum < k) { 
+			end++; 
 
-void init(int lim){
-  // Creating the seive for counting prime factors
-  for(int i = 0; i < lim; i++){
-    countp[i] = 0;
-    isprime[i] = 1;
-  }
-  isprime[0] = 0;
-  isprime[1] = 0;
-  isprime[2] = 1;
-  for(int i = 2; i < lim; i++){
-    if(isprime[i]){
-      for(int j = 2 * i; j <= lim; j += i){
-        isprime[j] = 0;
-      }
-    }
-  }
-  countp[0] = 0;
-  countp[1] = 0;
-  for(int i = 2; i < lim; i++){
-    if(isprime[i]){
-      countp[i] = 1;
-      for(int j = 2 * i; j < lim; j += i){
-        countp[j]++;
-      }
-    }
-  }
-}
+			if (end >= start){ 
+				count += end - start; 
+            	cnt[end - start]++;
+            }
 
-int seq(int arr[], int n, int k){
-  deque<int> dq;
-  for(int i = 0; i < k; i++){
-    while(!dq.empty() && countp[arr[dq.back()]] <= countp[arr[i]]){
-      dq.pop_back(); // removing elements with smaller number of prime factors
-    }
-    dq.push_back(i);
-  }
-  int min_v = arr[dq.front()];
-  for(int i = k; i < n; i++){
-    while(!dq.empty() && dq.front() <= i - k){
-      dq.pop_front(); // removing elements the are out of the window
-    }
-    while(!dq.empty() && countp[arr[dq.back()]] <= countp[arr[i]]){
-      dq.pop_back();  // remove elements with lesser number of prime factors
-    }
-    dq.push_back(i);
-    min_v = min(min_v, arr[dq.front()]); // Front will always number with largest Prime factors
-  }
-  return min_v;
-}
+			if (end < n) 
+				sum += arr[end]; 
+		} 
 
-int main(){
-  int n, k;
-  cin >> k >> n;
-  int arr[n];
-  int max_v = INT_MIN;
-  for(int i = 0; i < n; i++){
-    cin >> arr[i];
-    max_v = max(max_v, arr[i]);
+	else { 
+			sum -= arr[start]; 
+			start++; 
+		} 
+	} 
+  for(int i = n - 1; i >= 1; i--){
+  	cnt[i] += cnt[i +1];
   }
-  init(max_v + 1);
-  cout << seq(arr, n, k) << endl;
-  return 0;
-}
+  for(int i = 1; i<= n; i++){
+  	cout << cnt[i] << " ";
+  }
+  cout << endl;
+
+	return count; 
+} 
+
+// Driver Code 
+int main() 
+{ 
+	int array[] = { 1, 11, 2, 3, 15 }; 
+	int k = 10; 
+	int size = sizeof(array) / sizeof(array[0]); 
+	cout << countSubarrays(array, size, k); 
+} 
